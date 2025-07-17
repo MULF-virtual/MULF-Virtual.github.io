@@ -18,6 +18,7 @@
     }
 
     header {
+      
       text-align: center;
       margin-bottom: 20px;
     }
@@ -86,17 +87,24 @@
       text-align: center;
       font-size: 0.95em;
     }
-
-    .logos {
+ footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f0f0f0;
+      padding: 2px;
+      box-sizing: border-box;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 15px;
+      gap: 20px;
+      z-index: 9999;
     }
 
-    .logos img {
-      height: 60px;
+    footer img {
+      height: 50px;
+      padding: 1em;
     }
 
     @media (max-width: 768px) {
@@ -104,22 +112,90 @@
         width: 90vw;
         height: 90vw;
       }
+
+      footer img {
+        height: 40px;
+      }
     }
+    
+    header {
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 1px solid #ccc;
+}
+
+header img {
+  height: 50px;
+  margin-right: 15px;
+}
+
+header h1 {
+  font-size: 24px;
+  margin: 0;
+  letter-spacing: 2px;
+  font-weight: normal;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 30vh;
+  background: url('07.png') center center no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+ margin-bottom:3vh ;
+}
+
+.hero .overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+}
+
+.hero .hero-text {
+  position: relative;
+  color: white;
+  max-width: 800px;
+  padding: 20px;
+  z-index: 1;
+}
+
+.hero .hero-text h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.hero .hero-text p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
   </style>
 </head>
 <body>
   <header>
-    <div class="logos">
-      <img src="uaem.png" alt="Logos UAEM y MULF">
-      <img src="sdc.png" alt="Logos UAEM y MULF">
-      <img src="DM.png" alt="Logos UAEM y MULF">
-      <img src="mulf.png" alt="Logos UAEM y MULF">
-    </div>
-    <h1>Espacio Virtual del MULF</h1>
-    <p class="descripcion">
-      Este espacio virtual es una extensión del Museo Universitario Leopoldo Flores. Aquí podrás recorrer exposiciones en línea que amplían el acceso al arte contemporáneo desde cualquier parte del mundo.
+  <img src="logo_mulf.png" alt="Logo MULF">
+  <h1>Museo Universitario "Leopoldo Flores"</h1>
+</header>
+
+<section class="hero">
+  <div class="overlay"></div>
+  <div class="hero-text">
+    <h2>VISITAS VIRTUALES</h2>
+    <p>
+      Explora una parte de la colección del museo y una selección de exposiciones temporales de manera virtual.
+      En los recorridos virtuales se ofrecen adicionalmente visitas guiadas.
     </p>
-  </header>
+  </div>
+</section>
+
 
   <section class="exposiciones">
     <a href="index1.html">
@@ -128,7 +204,7 @@
         <img src="over_bitacora.png" class="hover" alt="Bitácora de Emergencia Hover">
       </div>
     </a>
-    <a href="#horasnegras">
+    <a href="index2.html">
       <div class="expo">
         <img src="HN.jpg" alt="Horas Negras">
         <img src="HN_hover.png" class="hover" alt="Horas Negras Hover">
@@ -143,7 +219,15 @@
       Mouse: Mueve para mirar</p>
     <p><strong>Móvil / Tablet</strong><br>
       Toca y arrastra: Para moverte · Desliza o gira el dispositivo: Para mirar</p>
-    <p>ℹ️ Posiciona la mira sobre una obra para ver su descripción y detalles.</p>
+    <p></p>
   </section>
+  <footer>
+      <div class="logos">
+      <img src="uaem.png" alt="Logos UAEM y MULF">
+      <img src="sdc.png" alt="Logos UAEM y MULF">
+      <img src="DM.png" alt="Logos UAEM y MULF">
+      <img src="mulf.png" alt="Logos UAEM y MULF">
+    </div>
+  </footer>
 </body>
 </html>
