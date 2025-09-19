@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MURALES PANCARTA</title>
+
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/aframe-virtual-joystick/dist/aframe-virtual-joystick.js"></script>
+    
+    <script src="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap"></script>
+    <script src="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap"></script>
+  
+
+    <script src="js/image-texts.js"></script>
+    <script src="js/app.js"></script>
+    
+    <style>
+html, body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.overlay {
+  overflow-x: hidden;
+}
+
+.info-content {
+  box-sizing: border-box;
+  left: 0%;
+  transform: translateX(0%);
+  width: 80%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.overlay img,
+.info-content img,
+#help-overlay img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+       /* Pantalla de carga */
+      #pantalla-carga {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url('descarga1.png') center center no-repeat;
+        background-size: cover;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Capa negra semitransparente */
+      #pantalla-carga::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 0;
+      }
+
+      /* Animación de carga */
+      .loader {
+        z-index: 1;
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #444;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: girar 1s linear infinite;
+      }
+
+      @keyframes girar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+     
+     .ui-esquina {
+        position: fixed;
+        top: 1em;
+        right: 1em;
+        width: 10rem; /* Ajusta el tamaño según tu necesidad */
+        z-index: 9999;
+      }
+
+        /* Botón Info */
+      .info-button {
+        position: fixed;
+        top: 10px;
+        left: 80px;
+        padding: 7px 15px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        z-index: 10001;
+        cursor: pointer;
+      }
+
+      /* Capa oscura */
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+      }
+
+      /* Contenedor de texto */
+      .info-content {
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        background: rgba(0, 0, 0, 0.515);
+        color: rgb(255, 255, 255);
+        padding: 20px;
+        overflow-y: auto;
+        border-radius: 10px;
+        font-family: 'Calibri', Courier, monospace;
+  font-weight: regular;
+        
+      }
+
+      .info-content img {
+  display: block;
+  margin: 0 auto;
+}
+
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 20px;
+        cursor: pointer;
+        font-weight: bold;
+}
+      #help-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10001;
+        padding: 6px 12px;
+        background-color: #865905;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      #help-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 10002;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #help-overlay img {
+        max-width: 90%;
+        max-height: auto;
+      }
+
+      #close-help {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #865905;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      a-scene {
+        display:block;
+      }
+    </style>
+  </head>
+  <body>
+<!-- Pantalla de carga -->
+ <div id="pantalla-carga">
+      <div class="loader"></div>
+    </div>
+
+     <img src="MP_hover.png" class="ui-esquina" />
+
+      <!-- Botón "Info" -->
+    <button class="info-button" onclick="abrirInfo()">Info</button>
+
+
+
+
+
+    <!-- Overlay de información -->
+    <div class="overlay" id="infoOverlay">
+         
+      
+        <div class="info-content">
+        <div class="close-button" onclick="cerrarInfo()">✖</div>
+        <img src="MP_hover.png">
+        
+
+<p>
+EL mural pancarta irrumpe en la calle. Es pintura a gran escala, móvil y pública. 
+Leopoldo Flores lo definió como grandes telas colocadas en exteriores para sostener una esperanza monumental 
+cuando el muro institucional ya no bastaba. Su función no es decorativa. Activa al transeúnte y convierte el espacio urbano en foro político.
+</p>
+
+<p>
+En este recorrido virtual por una ciudad en ruinas, las telas cuelgan entre fachadas derruidas. 
+La ruina no es sólo material, es memoria de violencia, de juntas militares, de guerras y de la vida cotidiana sometida a la corrupción y la desigualdad. 
+En este escenario, los murales pancarta aparecen como dispositivos de resistencia; denuncian, interpelan y convocan a la acción colectiva.
+</p>
+
+<p>
+El cuerpo de obra se basa en la serie <em>Cien hecatombes</em>, las acciones de Arte Abierto y obras presentadas en Bellas Artes y en París. 
+En 1972, Leopoldo Flores rompió la lógica museal: colgó las pancartas en la fachada de la Casa de Cultura de Toluca (hoy Edificio del Poder Legislativo) 
+y extendió la pintura sobre el suelo, de modo que el público las pisaba. 
+La serie <em>Cien hecatombes</em> denunció la violencia como sacrificio colectivo; el hombre aparece como manada que camina al matadero. 
+Raquel Tibol describió estas obras como murales luctuosos, con cuerpos torturados cuya sangre se extendía por el pavimento.
+</p>
+
+<p>
+Un año después, en el Palacio de Bellas Artes (CDMX), colgaron del techo grandes pancartas. 
+La gran manada apuntó a las juntas militares y a los pueblos oprimidos. 
+El gesto confirmó que el soporte podía migrar del edificio patrimonial a la calle, y de vuelta, sin perder su cualidad crítica. 
+En París, el Salón de Mayo y el Museo de Arte Moderno hicieron visible la potencia del formato: 
+una gran pancarta en la fachada occidental del museo sacudió a los transeúntes y fue registrada por el Centro Nacional de Arte Contemporáneo. 
+Críticos del comité del Salón de Mayo la consideraron un hito del arte joven en la capital francesa.
+</p>
+
+<p>
+En 1976, el manifiesto Arte Abierto planteó un arte de participación masiva y comunicación directa con el pueblo. 
+Las acciones se pintaron sobre bardas, acompañadas de música y teatro. 
+En este espacio virtual, las obras se reactivan al ubicarse en un espacio de ruina: cuelgan entre edificios colapsados y se extienden sobre calles quebradas. 
+El espectador de hoy es invitado a recorrer, transitar y reflexionar sobre una representación virtual de un pasado especulativo.
+</p>
+
+<p>
+La ruina como lente en el vacío de la ciudad, las pancartas recuperan su condición de alarma. 
+Cada tela nombra lo innombrable: guerra, represión, manada, sacrificio. 
+No pide permiso. Ocupa. Señala. Resiste. 
+Así, Murales Pancarta, arte y resistencia reitera una hipótesis: 
+el arte público, cuando es dispositivo, no ilustra la protesta, la produce. 
+La calle es el medio y el mensaje.
+</p>
+
+<p>
+Así, Murales Pancarta, arte y resistencia no sólo recupera la obra de Leopoldo Flores 
+sino que re-enfrenta su sentido original bajo un nuevo territorio: 
+las pancartas no son decoraciones sino dispositivos de alerta y protesta. 
+Su instalación en una ciudad en ruinas invita a pensar el arte como huella y herramienta de lucha social, 
+como memoria de las luchas populares y como llamado a la acción. 
+La calle es la galería, la ruina es el marco, y la obra es resistencia.
+</p>
+
+<h2>Diario de vida de las 13 piezas</h2>
+<p><em>(Ficha técnica y datos verificables. Donde no hay información en los documentos, no se agrega.)</em></p>
+
+<p>
+<strong>1. “Arte Abierto acción”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 2.10 × 24.60 m, 1976.<br>
+• <em>Observación:</em> Arte Abierto Acción No. 5.<br>
+• <em>Contexto/acción:</em> Vinculada al manifiesto de 1976 que propuso participación masiva y comunicación directa con el pueblo. Acción pintada en la barda del antiguo mercado Hidalgo, con música y teatro.<br>
+• <em>Relación social:</em> Dispositivo de activación colectiva en espacio urbano.
+</p>
+<img src="IMG_Docu_Pan/01.png">
+
+<p>
+<strong>2. Mural pancarta No. 2 “Cien hecatombes”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 2.35 × 13.80 m, 1972.<br>
+• <em>Observación:</em> Mural pancarta II 100 Hecatombes (parte 1).<br>
+• <em>Exhibición:</em> 100 Hecatombes, Casa de Cultura de Toluca; pancarta en fachada y pintura prolongada sobre el piso, tránsito del público.<br>
+• <em>Relación social:</em> Imagen de sacrificio y denuncia de violencia sistémica.
+</p>
+
+<p>
+<strong>3. “Mural pancarta IV”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 7 × 19 m, s/f.<br>
+• <em>Exhibición:</em> Bellas Artes.<br>
+• <em>Relación social:</em> No documentada en texto específico; pieza situada en núcleo crítico de La gran manada en 1973.
+</p>
+
+<p>
+<strong>4. “Mural pancarta V”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 3.90 × 23 m, 1973.<br>
+• <em>Observación:</em> Mural pancarta No. 9. Exhibición: Bellas Artes.<br>
+• <em>Tema:</em> Dedicada a las juntas militares, figuradas como cerdos.<br>
+• <em>Relación social:</em> Alegoría de la represión y la deshumanización.
+</p>
+
+<p>
+<strong>5. “Mural Pancarta III”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 5.80 × 7.05 m, 1977.<br>
+• <em>Presentación:</em> 100 Hecatombes (registro fotográfico).
+</p>
+
+<p>
+<strong>6. “Arte Abierto acción no. 3”</strong><br>
+• <em>Técnica y datos:</em> Acrílico/tela, 2 × 21.6 m, 1976.<br>
+• <em>Marco:</em> Arte Abierto 1976 y manifiesto de participación.
+</p>
+
+<p>
+<strong>7. “Mural Pancarta II”</strong><br>
+• <em>Técnica y datos:</em> Collage, 3.90 × 6.40 m, 1970.<br>
+• <em>Mención:</em> Tercer Salón Independiente 1970.
+</p>
+
+<p>
+<strong>8. Mural pancarta No. 3 “Cien hecatombes”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 2.30 × 14.20 m, 1972.<br>
+• <em>Observación:</em> parte 2 de 100 Hecatombes.<br>
+• <em>Marco de obra:</em> Hecatombe, sacrificio, tránsito público sobre la pintura.
+</p>
+
+<p>
+<strong>9. Mural Pancarta “A la opinión pública”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 19 × 12.30 m, s/f.<br>
+• <em>Exhibición:</em> Bellas Artes.
+</p>
+
+<p>
+<strong>10. Mural pancarta (sección II) París “Nosotros mismos”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 10 piezas, 2.40 × 8.08 m, 1970.<br>
+• <em>Mención:</em> exposición Nosotros mismos.<br>
+• <em>Contexto internacional:</em> Inserción temprana de las pancartas en circuito francés; en paralelo, prensa reporta fachada del Museo de Arte Moderno y reconocimiento institucional.
+</p>
+
+<p>
+<strong>11. “Nosotros mismos”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 2 piezas, 2.50 × 9.90 m, s/f.<br>
+• <em>Nota periodística:</em> 1970.
+</p>
+
+<p>
+<strong>12. “Mural pancarta I”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 2.4 × 10.05 m, 1974.<br>
+• <em>Referencias hemerográficas:</em> Excélsior, 29 de junio de 1972; otra nota en marzo de 1971 con referencias a Orozco y Guernica.
+</p>
+
+<p>
+<strong>13. Mural Pancarta No. 1 “Cien hecatombes”</strong><br>
+• <em>Técnica y datos:</em> Acrílico sobre tela, 2.30 × 22.60 m, 1972.<br>
+• <em>Observación:</em> Mural pancarta III 100 Hecatombes. Exhibición: 100 Hecatombes.<br>
+• <em>Reseña temática general del ciclo:</em> manada, sacrificio y denuncia de violencia estatal y colectiva.<br>
+• <em>Recepción pública en prensa:</em> irrupción urbana, impacto en transeúntes, tintes “luctuosos” y uso del espacio público.
+</p>
+
+
+
+      </div>
+    </div>
+    
+    <button id="help-button">Ayuda</button>
+    <div id="help-overlay">
+      <img src="ayuda.png" alt="Ayuda">
+      <button id="close-help">Cerrar</button>
+    </div>
+    <a-scene loading-screen="enabled: false">
+      
+        <a-sky src="#mi-textura-360"></a-sky>
+
+      <!-- Assets: Modelo GLB -->
+      <a-assets>
+        <a-asset-item id="sala3D" src="mural_pancarta.glb"></a-asset-item>
+        <!-- Lista de assets extraídos del GLB -->
+
+  <img id="mi-textura-360" src="paisaje2.jpg" position="6 2 8" >
+
+
+       
+      </a-assets>
+    
+
+      <!-- Modelo de sala -->
+      <a-gltf-model
+        id="sala"
+        src="#sala3D"
+        position="6 0.01 8"
+        rotation="0 90 0"
+        scale="1.5 1.5 1.5"
+        auto-info-from-textures>
+      </a-gltf-model>
+
+      <!-- Ejemplos de im\xC3\xA1genes con informaci\xC3\xB3n -->
+      <!--<a-image id="img1"  src="#painting1" position="-0.48 1.6 -1.05" scale="4.8 3 0" >-->
+        
+         <a-entity rotation="-90 0 0"
+          geometry="primitive: plane; height: 20000; width: 20000" 
+          position="0 -0.1 0" material="repeat: 1000 1000; color: #020202; roughness: 1">
+                
+      </a-entity>
+
+
+      <!-- C\xC3\xA1mara con joystick visible -->
+      <a-entity  id="camera" camera look-controls position="4 1.6 10"  wasd-controls joystick="enabled: true; left: true; right: true; up: true; down: true" joystick-controls>
+        <a-cursor id="cursor" fuse="true" fuseTimeout="3000" raycaster="objects: .info-target" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.008" material="color: black; shader: flat" cursor-progress>
+          <a-ring id="cursorProgress" position="0 0 -0.001" radius-inner="0.009" radius-outer="0.011" color="#005603" theta-length="0" visible="false"></a-ring>
+        </a-cursor>
+      </a-entity>
+
+<!-- Activar joystick virtual -->
+      <a-entity joystick></a-entity>
+
+      
+  
+      <!-- Luces   -->
+      
+    <a-entity  light="color: white; decay: 1.22; intensity: 25; penumbra: 1; type: spot" position="7.33324 12.63081 -21.89061" rotation="-39.76040619310348 -84.2505789850119 90.89173278837328"></a-entity>
+      <a-entity light="color: white; decay: 1.22; intensity: 25; penumbra: 1; type: spot" position="7.33324 10.7327 -39.44467" rotation="-39.76040619310348 -84.2505789850119 90.89173278837328"></a-entity>
+      <a-entity light="angle: 180; color: white; decay: 1.52; intensity: 28.09; penumbra: 1; type: spot" position="7.03649 7.88554 -2.87385" rotation="10.302927072042463 -84.76394916944912 84.77426240976148"></a-entity>
+     <a-entity light="color: white; decay: 1.7; intensity: 24.18; penumbra: 0.6; type: spot" position="-4.12058 9.84203 -34.93842" rotation="-35.33086947894708 67.68293138100901 -65.63116951664554"></a-entity> 
+      <a-entity light="color: white; decay: 1.7; intensity: 24.18; penumbra: 0.6; type: spot" position="-2.95536 12.37807 -24.81891" rotation="-37.61410629254342 66.97762033520297 -64.44514688072474"></a-entity>
+      <a-entity light="color: white; decay: 1.7; intensity: 24.18; penumbra: 0.6; type: spot" position="-2.95536 12.37807 -24.81891" rotation="-37.61410629254342 66.97762033520297 -64.44514688072474"></a-entity>
+      <a-entity light="angle: 50; color: white; decay: 2.23; intensity: 24.18; penumbra: 0.6; type: spot" position="-3.61174 6.15998 -0.13433" rotation="-37.61410629254342 66.97762033520297 -64.44514688072474"></a-entity>
+      <a-entity light="angle: 47.64; color: white; decay: 1.5; intensity: 25; penumbra: 0.6; type: spot" position="-2.32123 19.59265 0.91884" rotation="-39.23557685276364 66.4241431051066 -63.5541975092963"></a-entity>
+     
+      
+
+       
+
+  
+
+    </a-scene>
+    <script>
+  <!-- Script para ocultar pantalla cuando termine de cargar -->
+        const escena = document.querySelector('a-scene');
+      const pantalla = document.getElementById('pantalla-carga');
+
+      if (escena.hasLoaded) {
+        pantalla.style.display = 'none';
+      } else {
+        escena.addEventListener('loaded', () => {
+          pantalla.style.display = 'none';
+        });
+      }
+
+      function abrirInfo() {
+        document.getElementById("infoOverlay").style.display = "block";
+      }
+
+      function cerrarInfo() {
+        document.getElementById("infoOverlay").style.display = "none";
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var introEl = document.getElementById('intro-screen');
+        var enterBtn = document.getElementById('enter-button');
+        var sceneEl = document.querySelector('a-scene');
+        var modelEl = document.querySelector('#sala');
+        var loadingEl = document.getElementById('loading-screen');
+        var helpBtn = document.getElementById('help-button');
+        var helpOverlay = document.getElementById('help-overlay');
+        var closeHelp = document.getElementById('close-help');
+
+        if (enterBtn) {
+          enterBtn.addEventListener('click', function () {
+            if (introEl) { introEl.style.display = 'none'; }
+            if (sceneEl) { sceneEl.style.display = 'block'; }
+            if (loadingEl) {
+              if (modelEl && !modelEl.hasLoaded) { loadingEl.style.display = 'flex'; }
+              else { loadingEl.style.display = 'none'; }
+            }
+          });
+        }
+
+        if (helpBtn && helpOverlay) {
+          helpBtn.addEventListener('click', function () {
+            helpOverlay.style.display = 'flex';
+          });
+        }
+        if (closeHelp && helpOverlay) {
+          closeHelp.addEventListener('click', function () {
+            helpOverlay.style.display = 'none';
+          });
+        }
+
+        if (!modelEl || !loadingEl) { return; }
+        var hide = function () { loadingEl.style.display = 'none'; };
+        if (modelEl.hasLoaded) { hide(); }
+        else { modelEl.addEventListener('model-loaded', hide); }
+      });
+    </script>
+  </body>
+</html>
