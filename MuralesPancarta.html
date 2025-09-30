@@ -10,9 +10,9 @@
     
     <script src="https://cdn.jsdelivr.net/npm/aframe-virtual-joystick/dist/aframe-virtual-joystick.js"></script>
     
-    <script src="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap"></script>
-    <script src="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap"></script>
-  
+   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap" rel="stylesheet">
+
 
     <script src="js/image-texts.js"></script>
     <script src="js/app.js"></script>
@@ -45,20 +45,15 @@ html, body {
 }
 
 
-       /* Pantalla de carga */
-      #pantalla-carga {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: url('carga.png') center center no-repeat;
-        background-size: cover;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+#pantalla-carga{position:fixed;inset:0;background:url('carga.png') center/cover no-repeat;z-index:9999}
+#pantalla-carga .loader{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:60px;height:60px;border:8px solid #f3f3f3;border-top:8px solid #444;
+  border-radius:50%;animation:girar 1s linear infinite;
+}
+#pantalla-carga .loader-logo{position:absolute;top:1rem;right:1rem;width:160px}
+
+
 
       /* Capa negra semitransparente */
       #pantalla-carga::after {
@@ -73,15 +68,17 @@ html, body {
       }
 
       /* Animación de carga */
-      .loader {
-        z-index: 1;
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #444;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: girar 1s linear infinite;
-      }
+    /* aro sobre la imagen */
+.loader{
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:calc(100% + 24px); height:calc(100% + 24px);
+  border:8px solid rgba(255,255,255,.25);
+  border-top-color:#ffffff;   /* cambia color aquí */
+  border-radius:50%;
+  animation:girar 1s linear infinite;
+  pointer-events:none;
+}
 
       @keyframes girar {
         0% { transform: rotate(0deg); }
@@ -145,7 +142,7 @@ html, body {
 }
 
       .close-button {
-        position: absolute;
+        position: fixed;
         top: 10px;
         right: 20px;
         font-size: 20px;
@@ -199,11 +196,18 @@ html, body {
       }
     </style>
   </head>
+
+
   <body>
+
 <!-- Pantalla de carga -->
- <div id="pantalla-carga">
-      <div class="loader"></div>
-    </div>
+<div id="pantalla-carga">
+  <div class="loader"></div>
+  <!-- opcional -->
+  <img class="loader-logo" src="MP_hover1.png" alt="">
+</div>
+
+
 
      <img src="MP_hover1.png" class="ui-esquina" />
 
@@ -223,7 +227,7 @@ html, body {
         <img src="MP_hover.png">
         
 
-<p>
+   <p>
 EL mural pancarta irrumpe en la calle. Es pintura a gran escala, móvil y pública. 
 Leopoldo Flores lo definió como grandes telas colocadas en exteriores para sostener
  una esperanza monumental 
@@ -277,93 +281,142 @@ como memoria de las luchas populares y como llamado a la acción.
 La calle es la galería, la ruina es el marco, y la obra es resistencia.
 </p>
 
-<h2>Diario de vida de las piezas</h2>
 
-<p>
-<strong>1. “Mural pancarta I”</strong><br>
+      </div>
+    </div>
+
+    <!-- Templates de contenido -->
+<template id="tpl-01">
+  <h3><strong>1. “Mural pancarta I”</strong><br></h3>
+  <p>
 • <em>Técnica y datos:</em> Acrílico sobre tela, 2.4 × 10.05 m, 1974.<br>
 • <em>Referencias hemerográficas:</em> Excélsior, 29 de junio de 1972; otra nota en marzo de 1971 con referencias a Orozco y Guernica.
 </p>
-<img src="IMG_Docu_Pan/1.jpg">
+  <img src="IMG_Docu_Pan/1.jpg" alt="Imagen 1">
+  <audio controls preload="metadata" src="media/audio01.mp3"></audio>
+</template>
 
-<p>
-<strong>2. “Mural Pancarta III”</strong><br>
-• <em>Técnica y datos:</em> Acrílico sobre tela, 5.80 × 7.05 m, 1977.<br>
-• <em>Presentación:</em> 100 Hecatombes (registro fotográfico).
-</p>
-<img src="IMG_Docu_Pan/2.jpg">
+<template id="tpl-02">
+  <h3><strong>2. “Mural Pancarta III”</strong></h3>
+  <p>
+    <em>Técnica y datos:</em> Acrílico sobre tela, 5.80 × 7.05 m, 1977.<br>
+    <em>Presentación:</em> 100 Hecatombes (registro fotográfico).
+  </p>
+  <img src="IMG_Docu_Pan/2.jpg" alt="Imagen 2">
+  <audio controls preload="metadata" src="media/audio02.mp3"></audio>
+</template>
 
-<p>
-<strong>3. “Nosotros mismos”</strong><br>
+<template id="tpl-03">
+  <h3><strong>3. “Nosotros mismos”</strong></h3>
+  <p>
+<br>
 • <em>Técnica y datos:</em> Acrílico sobre tela, 2 piezas, 2.50 × 9.90 m, s/f.<br>
 • <em>Nota periodística:</em> 1970.
 </p>
+  <img src="IMG_Docu_Pan/3.jpg" alt="Imagen 3">
+  <audio controls preload="metadata" src="media/audio02.mp3"></audio>
+</template>
 
 
-<p>
-<strong>4. “Mural pancarta IV”</strong><br>
+<template id="tpl-04">
+  <h3><strong>4. “Mural pancarta IV”</strong></h3>
+  <p>
+<br>
 • <em>Técnica y datos:</em> Acrílico sobre tela, 7 × 19 m, s/f.<br>
 • <em>Exhibición:</em> Bellas Artes.<br>
-• <em>Relación social:</em> No documentada en texto específico; pieza situada en núcleo crítico de La gran manada en 1973.
+• <em>Relación social:</em> Pieza situada en núcleo crítico de La gran manada en 1973.
 </p>
-<img src="IMG_Docu_Pan/4.jpg">
+  <img src="IMG_Docu_Pan/4.jpg" alt="Imagen 4">
+  <audio controls preload="metadata" src="media/audio02.mp3"></audio>
+</template>
 
-<strong>5. Mural pancarta No. 2 y No. 3 “Cien hecatombes”</strong><br>
-• <em>Técnica y datos:</em> Acrílico sobre tela, 2.36 × 13.80 m, dos modulos, 1972.<br>
-• <em>Observación:</em> Mural pancarta II 100 Hecatombes (parte 1).<br>
-• <em>Exhibición:</em> 100 Hecatombes, Casa de Cultura de Toluca; pancarta en fachada y pintura prolongada sobre el piso, tránsito del público.<br>
-• <em>Relación social:</em> Imagen de sacrificio y denuncia de violencia sistémica.
-</p>
-<img src="IMG_Docu_Pan/5.jpg">
+<template id="tpl-05">
+  <h3><strong>5. Cien hecatombes (II y III)</strong></h3>
+  <p>
+    <em>Técnica:</em> Acrílico sobre tela, 2.36 × 13.80 m, 1972.<br>
+    <em>Exhibición:</em> 100 Hecatombes, Casa de Cultura de Toluca…
+  </p>
+  <img src="IMG_Docu_Pan/5.jpg" alt="Imagen 5">
+  <audio controls preload="metadata" src="media/audio02.mp3"></audio>
+</template>
 
-<p>
-<strong>6. Mural Pancarta No. 1 “Cien hecatombes”</strong><br>
+
+<template id="tpl-06">
+  <h3><strong>6. Mural Pancarta No. 1 “Cien hecatombes”</strong></h3>
+  <p>
+<br>
 • <em>Técnica y datos:</em> Acrílico sobre tela, 2.30 × 22.60 m, 1972.<br>
 • <em>Observación:</em> Mural pancarta III 100 Hecatombes. Exhibición: 100 Hecatombes.<br>
 • <em>Reseña temática general del ciclo:</em> manada, sacrificio y denuncia de violencia estatal y colectiva.<br>
 • <em>Recepción pública en prensa:</em> irrupción urbana, impacto en transeúntes, tintes “luctuosos” y uso del espacio público.
 </p>
-<img src="IMG_Docu_Pan/6.jpg">
+  <img src="IMG_Docu_Pan/6.jpg" alt="Imagen 6">
+  <audio controls preload="metadata" src="media/audio02.mp3"></audio>
+</template>
 
-<p>
-<strong>7. Mural Pancarta “A la opinión pública”</strong><br>
-• <em>Técnica y datos:</em> Acrílico sobre tela, 19 × 12.30 m, s/f.<br>
-• <em>Exhibición:</em> Bellas Artes.
-</p>
-<img src="IMG_Docu_Pan/7.jpg">
+<template id="tpl-07">
+  <h3><strong>7. “A la opinión pública”</strong></h3>
+  <p>
+    <em>Técnica y datos:</em> Acrílico sobre tela, 19 × 12.30 m, s/f.<br>
+    <em>Exhibición:</em> Bellas Artes.
+  </p>
+  <img src="IMG_Docu_Pan/7.jpg" alt="Imagen 7">
+  <audio controls preload="metadata" src="media/audio02.mp3"></audio>
+</template>
 
-<p>
-<strong>8. “Arte Abierto acción no. 3”</strong><br>
+<template id="tpl-08">
+  <h3><strong>8. “Arte Abierto acción no. 3”</strong></h3>
+  <p>
+<br>
 • <em>Técnica y datos:</em> Acrílico/tela, 2 × 21.6 m, 1976.<br>
 • <em>Marco:</em> Arte Abierto 1976 y manifiesto de participación.
 </p>
-<img src="IMG_Docu_Pan/8.JPG">
+
+  <img src="IMG_Docu_Pan/8.jpg" alt="Imagen 8">
+  <audio controls preload="metadata" src="media/audio02.mp3"></audio>
+</template>
+
+
+//overlite por pancartas
+
+<!-- Overlay dinámico para planos -->
+<div class="overlay" id="overlayPlano">
+  
+  <div class="info-content">
+    <div class="close-button" onclick="cerrarOverlayPlano()" >✖</div>
+    <div id="textoPlano"></div>
+  </div>
+</div>
 
 
 
-      </div>
-    </div>
     
     <button id="help-button">Ayuda</button>
     <div id="help-overlay">
       <img src="ayuda.png" alt="Ayuda">
       <button id="close-help">Cerrar</button>
     </div>
-    <a-scene loading-screen="enabled: false">
-      
-        <a-sky src="#mi-textura-360"></a-sky>
 
-      <!-- Assets: Modelo GLB -->
+
+    <a-scene loading-screen="enabled: false">
+
+       <!-- Assets: Modelo GLB -->
       <a-assets>
+
+       
+
         <a-asset-item id="sala3D" src="mural_pancarta_2.glb"></a-asset-item>
         <!-- Lista de assets extraídos del GLB -->
-
-  <img id="mi-textura-360" src="paisaje2.jpg" position="6 2 8" >
+        <img id="mi-textura-360" src="paisaje2.jpg">
+  
 
 
        
       </a-assets>
-    
+      
+        
+     
+     <a-sky src="#mi-textura-360"></a-sky>
 
       <!-- Modelo de sala -->
       <a-gltf-model
@@ -385,11 +438,28 @@ La calle es la galería, la ruina es el marco, y la obra es resistencia.
       </a-entity>
 
 
-      <!-- C\xC3\xA1mara con joystick visible -->
-      <a-entity  id="camera" camera look-controls position="4 1.6 10"  wasd-controls joystick="enabled: true; left: true; right: true; up: true; down: true" joystick-controls>
-        <a-cursor id="cursor" fuse="true" fuseTimeout="3000" raycaster="objects: .info-target" position="0 0 -1" geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.008" material="color: black; shader: flat" cursor-progress>
-          <a-ring id="cursorProgress" position="0 0 -0.001" radius-inner="0.009" radius-outer="0.011" color="#005603" theta-length="0" visible="false"></a-ring>
-        </a-cursor>
+      <!--Camara con joystick visible -->
+      <a-entity  id="camera" camera look-controls position="4 1.6 10"  
+      wasd-controls joystick="enabled: true; left: true; right: true; up: true; down: true" 
+      joystick-controls>
+
+       <!-- Dentro de <a-entity id="camera"> -->
+<a-cursor id="cursor"
+          fuse="true"
+          fuseTimeout="3000"
+          raycaster="objects: .info-target"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
+          material="color: white; shader: flat">
+  <a-ring id="cursorProgress"
+          position="0 0 -0.001"
+          radius-inner="0.017"
+          radius-outer="0.021"
+          material="shader: flat; depthTest: false; transparent: true; opacity: 1; color: #21FF00"
+          theta-length="0"
+          visible="false"></a-ring>
+</a-cursor>
+
       </a-entity>
 
 <!-- Activar joystick virtual -->
@@ -399,81 +469,156 @@ La calle es la galería, la ruina es el marco, y la obra es resistencia.
   
       <!-- Luces   -->
       
-    <a-entity light="color: white; decay: 1.22; intensity: 50; penumbra: 1; type: spot" position="13.49567 4.01264 -39.15669" rotation="20.15321748593158 -90.15834681060582 90.68890572889696"></a-entity>
+      <a-entity light="color: white; decay: 1.22; intensity: 50; penumbra: 1; type: spot" position="13.49567 4.01264 -39.15669" rotation="20.15321748593158 -90.15834681060582 90.68890572889696"></a-entity>
       <a-entity light="color: white; decay: 1.47; intensity: 50; penumbra: 1; type: spot" position="0.75378 11.05766 -49.96966" rotation="-39.76040619310348 0 90.89173278837328"></a-entity>
       <a-entity light="angle: 180; color: white; decay: 1.45; intensity: 50; penumbra: 1; type: spot" position="19.74482 3.44844 -4.2623" rotation="36.53465380651694 -83.58422906927476 87.66483448619648"></a-entity>
       <a-entity light="angle: 30; color: white; decay: 1.22; intensity: 50; penumbra: 1; type: spot" position="11.18052 5.22956 -25.12826" rotation="6.720794936884556 -90.87110630774856 88.19482044669249"></a-entity>
-    <a-entity light="angle: 30; color: white; decay: 2.1; intensity: 50; penumbra: 0.6; type: spot" position="-14.89289 10.65334 -39.58065" rotation="-35.33086947894708 90 -65.63116951664554"></a-entity>
+      <a-entity light="angle: 30; color: white; decay: 2.1; intensity: 50; penumbra: 0.6; type: spot" position="-14.89289 10.65334 -39.58065" rotation="-35.33086947894708 90 -65.63116951664554"></a-entity>
       <a-entity light="color: white; decay: 2.01; intensity: 50; penumbra: 0.6; type: spot" position="-15.62549 7.43491 -24.81891" rotation="-37.61410629254342 90 -64.44514688072474"></a-entity>
       <a-entity light="color: white; decay: 2.23; intensity: 50; penumbra: 0.6; type: spot" position="-14.35773 5.19396 -1.8294" rotation="-10.174584525933158 90.00021045914971 -64.44514688072474"></a-entity>
       <a-entity light="color: white; decay: 1.85; intensity: 50; penumbra: 1; type: spot" position="-15.60063 10.72302 -14.33611" rotation="-39.23557685276364 90 -63.5541975092963"></a-entity>
      
-     <!-- Planos Referencia   -->
+   
 
-     <a-entity geometry="primitive: plane" position="-21.32852 1.69314 -2.82726" rotation="0 90 0" scale="10 2 1" id="01"></a-entity>
-     <a-entity geometry="primitive: plane" position="-21.67668 6.21257 -15.42122" rotation="0 90 0" scale="10 8 1" id="02"></a-entity>
+    <!-- Planos Referencia de Pancartas  -->
 
-  
+    <a-entity id="01" class="plano-info"
+          data-template="tpl-01"
+          geometry="primitive: plane"
+          position="-21.427 1.655 -2.261"
+          rotation="0 90 0" scale="8.76 2 1"></a-entity>
+
+ <a-entity id="02" class="plano-info"
+          data-template="tpl-02"
+          geometry="primitive: plane"
+          position="-21.67668 6.21257 -15.42122"
+          rotation="0 90 0" scale="10 8 1"></a-entity>
+
+           <a-entity id="03" class="plano-info"
+          data-template="tpl-03"
+          geometry="primitive: plane"
+          position="-23.541 2.296 -28.089"
+          rotation="0 90 0" scale="10 2.300 1"></a-entity>
+        
+          <a-entity id="04" class="plano-info"
+          data-template="tpl-04"
+          geometry="primitive: plane"
+          position="-21.677 4.694 -40.028"
+          rotation="0 90 0" scale="3.188 8.938 1"></a-entity>
+
+        <a-entity id="05" class="plano-info" 
+        data-template="tpl-05"
+        geometry="primitive: plane" 
+        position="0.7152 6.08013 -55.40373" scale="4.59565 12.05287 1" 
+        visible="false"></a-entity>
+
+          <a-entity id="06" class="plano-info " 
+          data-template="tpl-06"
+          geometry="primitive: plane" 
+          position="26.36496 1.60953 -39.26158" 
+          scale="21.22531 2.25938 1" 
+          visible="false" rotation="0 -90 0"></a-entity>
+
+         <a-entity id="07" class="plano-info info-target" 
+         data-template="tpl-07"
+         geometry="primitive: plane" position="26.36496 5.02669 -20.92195" 
+         scale="6.44943 8.29521 1" visible="false" rotation="0 -90 0"></a-entity>
+
+         <a-entity id="08" class="plano-info"
+          data-template="tpl-08"
+          geometry="primitive: plane" 
+          position="26.36496 1.49465 -4.65198" 
+          scale="24.1262 1.97219 1" 
+          visible="false" rotation="0 -90 0"></a-entity>
 
     </a-scene>
-    <script>
-  <!-- Script para ocultar pantalla cuando termine de cargar -->
-        const escena = document.querySelector('a-scene');
-      const pantalla = document.getElementById('pantalla-carga');
+   
+  <script>
+// Loader robusto
+const pantalla = document.getElementById('pantalla-carga');
+const escena   = document.querySelector('a-scene');
+const assets   = document.querySelector('a-assets');
+const hide = () => pantalla && (pantalla.style.display = 'none');
+window.addEventListener('load', hide);
+if (assets) { assets.addEventListener('loaded', hide); if (assets.hasLoaded) hide(); }
+if (escena) { escena.addEventListener('loaded', hide); escena.addEventListener('renderstart', hide); if (escena.hasLoaded) hide(); }
+setTimeout(hide, 8000);
 
-      if (escena.hasLoaded) {
-        pantalla.style.display = 'none';
+// Overlay "Info"
+function abrirInfo(){ document.getElementById('infoOverlay').style.display='block'; }
+function cerrarInfo(){ document.getElementById('infoOverlay').style.display='none'; }
+
+// Overlay por planos
+function cerrarOverlayPlano(){
+  const overlay = document.getElementById('overlayPlano');
+  const cont = document.getElementById('textoPlano');
+  overlay.style.display='none';
+  cont.querySelectorAll('video,audio').forEach(m=>{ m.pause(); m.currentTime=0; });
+}
+
+(function(){
+  const overlay = document.getElementById('overlayPlano');
+  const texto   = document.getElementById('textoPlano');
+  const planos  = document.querySelectorAll('.plano-info');
+  const cursor  = document.getElementById('cursor');
+  const progress= document.getElementById('cursorProgress');
+  if(!overlay||!texto||!cursor||!progress){ console.error('Faltan nodos'); return; }
+
+  // objetivos del raycaster
+  planos.forEach(p=>p.classList.add('info-target'));
+  if (cursor.components && cursor.components.raycaster) cursor.components.raycaster.refreshObjects();
+
+  const FUSE_MS = parseInt(cursor.getAttribute('fuseTimeout')||3000,10);
+  let rafId=null, startTs=0, activo=false;
+
+  function resetProgress(){
+    activo=false; startTs=0;
+    if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+    progress.setAttribute('theta-length', 0);
+    progress.setAttribute('visible','false');
+  }
+
+  function animar(){
+    if (!activo) return;
+    const ratio = Math.min((performance.now()-startTs)/FUSE_MS, 1);
+    progress.setAttribute('theta-length', 360 * ratio);
+    const r = Math.floor(255*ratio), g = Math.floor(255*(1-ratio));
+    progress.setAttribute('material','color', `rgb(${r},${g},0)`);
+    if (ratio < 1) rafId = requestAnimationFrame(animar);
+  }
+
+  // <<< listeners correctos >>>
+  planos.forEach(plano=>{
+    plano.addEventListener('mouseenter', ()=>{
+      activo = true; startTs = performance.now();
+      progress.setAttribute('visible','true');
+      progress.setAttribute('theta-length', 0);
+      progress.setAttribute('material','color','rgb(0,255,0)');
+      rafId = requestAnimationFrame(animar);
+    });
+
+    plano.addEventListener('mouseleave', resetProgress);
+
+    plano.addEventListener('click', ()=>{
+      const tplId = plano.getAttribute('data-template');
+      texto.innerHTML='';
+      if (tplId){
+        const tpl=document.getElementById(tplId);
+        if (tpl && tpl.content) texto.appendChild(tpl.content.cloneNode(true));
+        else texto.textContent = plano.getAttribute('data-info') || 'Sin información';
       } else {
-        escena.addEventListener('loaded', () => {
-          pantalla.style.display = 'none';
-        });
+        texto.textContent = plano.getAttribute('data-info') || 'Sin información';
       }
+      overlay.style.display='block';
+      resetProgress();
+    });
+  });
 
-      function abrirInfo() {
-        document.getElementById("infoOverlay").style.display = "block";
-      }
+  cursor.addEventListener('mouseleave', resetProgress);
+})();
+</script>
 
-      function cerrarInfo() {
-        document.getElementById("infoOverlay").style.display = "none";
-      }
 
-      document.addEventListener('DOMContentLoaded', function () {
-        var introEl = document.getElementById('intro-screen');
-        var enterBtn = document.getElementById('enter-button');
-        var sceneEl = document.querySelector('a-scene');
-        var modelEl = document.querySelector('#sala');
-        var loadingEl = document.getElementById('loading-screen');
-        var helpBtn = document.getElementById('help-button');
-        var helpOverlay = document.getElementById('help-overlay');
-        var closeHelp = document.getElementById('close-help');
 
-        if (enterBtn) {
-          enterBtn.addEventListener('click', function () {
-            if (introEl) { introEl.style.display = 'none'; }
-            if (sceneEl) { sceneEl.style.display = 'block'; }
-            if (loadingEl) {
-              if (modelEl && !modelEl.hasLoaded) { loadingEl.style.display = 'flex'; }
-              else { loadingEl.style.display = 'none'; }
-            }
-          });
-        }
-
-        if (helpBtn && helpOverlay) {
-          helpBtn.addEventListener('click', function () {
-            helpOverlay.style.display = 'flex';
-          });
-        }
-        if (closeHelp && helpOverlay) {
-          closeHelp.addEventListener('click', function () {
-            helpOverlay.style.display = 'none';
-          });
-        }
-
-        if (!modelEl || !loadingEl) { return; }
-        var hide = function () { loadingEl.style.display = 'none'; };
-        if (modelEl.hasLoaded) { hide(); }
-        else { modelEl.addEventListener('model-loaded', hide); }
-      });
-    </script>
   </body>
 </html>
